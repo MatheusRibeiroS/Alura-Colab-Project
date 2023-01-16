@@ -24,11 +24,17 @@ export class UserService {
   }
 
   async createUser(body: UserDTO) {
-    return await this.userRepository.save(body);
+    return await this.userRepository.save({
+      ...body,
+      createdAt: new Date(),
+    });
   }
 
   async updateUser(id: string, body: Partial<UserDTO>) {
-    return await this.userRepository.update(id, body);
+    return await this.userRepository.update(id, {
+      ...body,
+      updatedAt: new Date(),
+    });
   }
 
   async deleteUser(id: string) {
