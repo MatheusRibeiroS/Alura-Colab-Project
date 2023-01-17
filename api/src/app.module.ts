@@ -15,7 +15,7 @@ import { QuestionEntity } from "./modules/question/entities/question.entity";
     TypeOrmModule.forRoot({
       type: "postgres",
       synchronize: true,
-      url: "postgresql://postgres:postgres@localhost:5432/postgres",
+      url: process.env.DATABASE_URL,
       entities: [UserEntity, QuestionEntity],
     }),
   ],
