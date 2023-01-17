@@ -2,6 +2,9 @@ html {
   background-color: #131b3a;
   overflow: hidden;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   margin: 0;
