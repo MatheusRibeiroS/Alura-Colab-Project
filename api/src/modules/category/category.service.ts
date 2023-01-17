@@ -1,22 +1,22 @@
 import { Injectable } from "@nestjs/common";
-import { InjectableRepository } from "@nestjs/typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { CategoryEntity } from "./entities/category.entity.ts";
-import { CategoryDTO } from "./dto/category.dto.ts";
+import { CategoryEntity } from "./entities/category.entity";
+import { CategoryDTO } from "./dto/category.dto";
 
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectableRepository(CategoryEntity)
+    @InjectRepository(CategoryEntity)
     private readonly categoryRepository: Repository<CategoryEntity>,
   ) {}
 
-  async getAllCategory() {
+  async getAllCategories() {
     return await this.categoryRepository.find();
   }
 
   async getCategoryById(id: string) {
-    return await tihis.categoryRepository.findOne({
+    return await this.categoryRepository.findOne({
       where: {
         id,
       },
@@ -27,6 +27,13 @@ export class CategoryService {
     return await this.categoryRepository.save({
       ...body,
       createdAt: new Date(),
+    });
+  }
+
+  async updateCategory(id: string, body: Partial<CategoryDTO>) {
+    return await this.categoryRepository.update(id, {
+      ...body,
+      updatedAt: new Date(),
     });
   }
 

@@ -25,7 +25,7 @@ export class CategoryController {
   }
 
   @Post()
-  async createCategory(@Body() body: categoryDTO) {
+  async createCategory(@Body() body: CategoryDTO) {
     return this.categoryService.createCategory(body);
   }
 
