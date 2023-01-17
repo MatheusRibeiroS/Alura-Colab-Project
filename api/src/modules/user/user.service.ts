@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { UserEntity } from "./entities/user.entity";
 import { UserDTO } from "./dto/user.dto";
+import * as CryptoJS from "crypto-js";
 
 @Injectable()
 export class UserService {
@@ -31,9 +32,16 @@ export class UserService {
     });
   }
 
-  async createUser(body: UserDTO) {
+  async createUser(user: UserDTO) {
+    const decryptedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      `${process.env.CRYPTO_SECRET}`,
+    ).toString(CryptoJS.enc.Utf8);
+
+    user.password = decryptedPassword;
+
     return await this.userRepository.save({
-      ...body,
+      ...user,
       createdAt: new Date(),
     });
   }
