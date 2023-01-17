@@ -23,6 +23,14 @@ export class UserService {
     });
   }
 
+  async getUserByEmail(email: string) {
+    return await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
+  }
+
   async createUser(body: UserDTO) {
     return await this.userRepository.save({
       ...body,

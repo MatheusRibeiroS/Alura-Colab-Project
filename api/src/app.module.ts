@@ -5,6 +5,7 @@ import { AppService } from "./app.service";
 import { UserModule } from "./modules/user/user.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "./modules/user/entities/user.entity";
+import { AuthModule } from "./modules/auth/auth.module";
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UserEntity } from "./modules/user/entities/user.entity";
       url: process.env.DATABASE_URL,
       entities: [UserEntity],
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
