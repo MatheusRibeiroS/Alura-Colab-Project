@@ -6,6 +6,7 @@ import { UserModule } from "./modules/user/user.module";
 import { QuestionModule } from "./modules/question/question.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "./modules/user/entities/user.entity";
+import { AuthModule } from "./modules/auth/auth.module";
 import { QuestionEntity } from "./modules/question/entities/question.entity";
 
 @Module({
@@ -18,6 +19,7 @@ import { QuestionEntity } from "./modules/question/entities/question.entity";
       url: process.env.DATABASE_URL,
       entities: [UserEntity, QuestionEntity],
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
