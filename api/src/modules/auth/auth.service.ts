@@ -3,6 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { UserDTO } from "../user/dto/user.dto";
 import { UserService } from "../user/user.service";
 import { UnauthorizedException } from "@nestjs/common";
+import * as CryptoJS from "crypto-js";
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,18 @@ export class AuthService {
 
   async login(user: Omit<UserDTO, "name">) {
     const userRes = await this.userService.getUserByEmail(user.email);
-    if (userRes.password == user.password) {
+
+    const providedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      `${process.env.CRYPTO_SECRET}`,
+    ).toString(CryptoJS.enc.Utf8);
+
+    const userPassword = CryptoJS.AES.decrypt(
+      userRes.password,
+      `${process.env.CRYPTO_SECRET}`,
+    ).toString(CryptoJS.enc.Utf8);
+
+    if (userPassword == providedPassword) {
       const payload = { username: userRes.name, email: userRes.email };
       return {
         access_token: this.jwtService.sign(payload),
