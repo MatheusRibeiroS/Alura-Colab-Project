@@ -6,6 +6,7 @@ import {
   Min,
   Max,
 } from "class-validator";
+import { CategoryEntity } from "../../category/entities/category.entity";
 
 export class QuestionDTO {
   @IsNotEmpty()
@@ -20,7 +21,7 @@ export class QuestionDTO {
 
   @IsNotEmpty()
   @IsString()
-  category: string;
+  category: CategoryEntity;
 
   @IsNotEmpty()
   @IsString()

@@ -1,8 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
+import { CategoryEntity } from "../../category/entities/category.entity";
 
 @Entity("question")
 export class QuestionEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
@@ -11,8 +18,9 @@ export class QuestionEntity {
   @Column()
   level: number;
 
-  @Column()
-  category: string;
+  @ManyToOne(() => CategoryEntity)
+  @JoinColumn()
+  category: CategoryEntity;
 
   @Column()
   statment: string;
