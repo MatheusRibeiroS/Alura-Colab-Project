@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { QuestionEntity } from "./entities/question.Entity";
+import { CategoryEntity } from "../category/entities/category.entity";
 import { QuestionDTO } from "./dto/question.dto";
 
 @Injectable()
@@ -9,6 +10,8 @@ export class QuestionService {
   constructor(
     @InjectRepository(QuestionEntity)
     private readonly questionRepository: Repository<QuestionEntity>,
+    @InjectRepository(CategoryEntity)
+    private readonly categoryRepository: Repository<CategoryEntity>,
   ) {}
 
   async getAllQuestions() {
@@ -28,6 +31,9 @@ export class QuestionService {
       .createQueryBuilder("question")
       .select()
       .orderBy("RANDOM()")
+      .where({
+        level,
+      })
       .getOne();
   }
 
