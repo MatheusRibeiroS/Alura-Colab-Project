@@ -10,7 +10,7 @@ import {
 import { QuestionService } from "./question.service";
 import { QuestionDTO } from "./dto/question.dto";
 
-@Controller("questions")
+@Controller("question")
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
