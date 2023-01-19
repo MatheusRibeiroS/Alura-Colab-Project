@@ -2,18 +2,25 @@ import logo from "../../src/assets/img/logo.webp";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import CryptoJS from "crypto-js";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
-export default function Login() {
+export default function NewAccount() {
   const [showPassword, setShowPassword] = useState(false);
   const [loginForm, setLoginForm] = useState({
+    name: "",
     email: "",
     password: "",
   });
   const navigate = useNavigate();
 
-  const handleEmailChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+  const handleNomeChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
+    setLoginForm({
+      ...loginForm,
+      name: e.target.value,
+    });
+
+  const handleLoginChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
     setLoginForm({
       ...loginForm,
       email: e.target.value,
@@ -29,17 +36,19 @@ export default function Login() {
 
   const onSubmitLogin: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+
     const encrypted = CryptoJS.AES.encrypt(
       loginForm.password,
       `${process.env.REACT_APP_CRYPTO_SECRET}`
     ).toString();
 
     (async () => {
-      axios.post("http://localhost:4000/auth/login", {
+      axios.post("http://localhost:4000/user", {
+        name: loginForm.name,
         email: loginForm.email,
         password: encrypted,
       });
-      navigate("/home");
+      navigate("/login");
     })();
   };
 
@@ -51,10 +60,19 @@ export default function Login() {
         className="flex flex-col gap-[20px] w-[340px] min-w-[280px]"
       >
         <div className="flex flex-col gap-[5px]">
+          <label className="text-[#FDFDFD]">Nome</label>
+          <label className="flex gap-[4px] p-[6px] border-solid border-[1px] border-[#DFDFDF] rounded-[4px] bg-[#fff] cursor-text">
+            <input
+              onChange={handleNomeChange}
+              className="outline-none placeholder:text-[#9B9B9B] w-full"
+            />
+          </label>
+        </div>
+        <div className="flex flex-col gap-[5px]">
           <label className="text-[#FDFDFD]">Email</label>
           <label className="flex gap-[4px] p-[6px] border-solid border-[1px] border-[#DFDFDF] rounded-[4px] bg-[#fff] cursor-text">
             <input
-              onChange={handleEmailChange}
+              onChange={handleLoginChange}
               className="outline-none placeholder:text-[#9B9B9B] w-full"
             />
           </label>
@@ -79,17 +97,19 @@ export default function Login() {
             </div>
           </label>
         </div>
-        <button
-          type="submit"
-          className="bg-[#0085FF1A] hover:bg-[#0084ff45] transition-all duration-500 p-[10px_32px] rounded-[4px] text-[#FDFDFD] text-sm mt-[10px]"
-        >
-          ENTRAR
-        </button>
-        <div
-          onClick={() => navigate("/new-account")}
-          className="flex flex-row-reverse mt-[-10px] text-[#FDFDFD] text-sm hover:text-[#0084ff45] cursor-pointer"
-        >
-          Não tem uma conta?
+        <div className="flex gap-2">
+          <button
+            onClick={() => navigate("/login")}
+            className="w-full bg-[#0084ff45] hover:bg-[#0085FF1A] transition-all duration-500 p-[10px_32px] rounded-[4px] text-[#FDFDFD] text-sm mt-[10px]"
+          >
+            CANCELAR
+          </button>
+          <button
+            type="submit"
+            className="w-full bg-[#0085FF1A] hover:bg-[#0084ff45] transition-all duration-500 p-[10px_32px] rounded-[4px] text-[#FDFDFD] text-sm mt-[10px]"
+          >
+            CADASTRAR
+          </button>
         </div>
       </form>
     </div>
