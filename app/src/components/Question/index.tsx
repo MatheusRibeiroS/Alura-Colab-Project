@@ -1,9 +1,9 @@
 import { respostasMock } from "../../mocks/respostasMock";
-import { cardsMock } from "../../mocks/cardsMock";
+import { gameOptions } from "../../mocks/gameOptionsMock";
 
 import Answer from "./Answer";
 import Statement from "./Statement";
-import Card from "./Card";
+import Option from "./Option";
 
 export default function Question() {
   return (
@@ -15,8 +15,8 @@ export default function Question() {
         ))}
       </section>
       <section className="flex space-x-4 justify-center">
-        {cardsMock.map((card, index) => (
-          <Card key={index} card={card} />
+        {gameOptions.map((option, index) => (
+          <Option key={index} option={option} />
         ))}
       </section>
     </div>
