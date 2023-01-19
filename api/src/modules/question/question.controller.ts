@@ -19,14 +19,14 @@ export class QuestionController {
     return this.questionService.getAllQuestions();
   }
 
+  @Get("random/:level")
+  async getRandomQuestion(@Param("level") level: string) {
+    return this.questionService.getRandomQuestion(level);
+  }
+
   @Get(":id")
   async getQuestionById(@Param("id") id: string) {
     return this.questionService.getQuestionById(id);
-  }
-
-  @Get()
-  async getRandomQuestion(@Param("level") level: string) {
-    return this.getRandomQuestion(level);
   }
 
   @Post()
