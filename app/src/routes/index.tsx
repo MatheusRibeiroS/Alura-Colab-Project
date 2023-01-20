@@ -3,14 +3,17 @@ import Login from "../pages/login";
 import Home from "../pages/home";
 import Questions from "../pages/questions";
 import NewAccount from "../pages/newAccount";
+import DefaultLayout from "../layouts";
 
 export const AppRouter = () => {
   return (
     <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/new-account' element={<NewAccount />} />
-      <Route path='/questions' element={<Questions />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/new-account" element={<NewAccount />} />
+      <Route element={<DefaultLayout/>}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/questions" element={<Questions />} />
+      </Route>
     </Routes>
   );
 };
