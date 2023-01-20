@@ -19,6 +19,9 @@ import { GameQuestionEntity } from "./modules/gameQuestion/entities/gameQuestion
     TypeOrmModule.forRoot({
       type: "postgres",
       synchronize: true,
+      ssl: {
+        rejectUnauthorized: false,
+      },
       url: process.env.DATABASE_URL,
       entities: [
         UserEntity,
