@@ -13,9 +13,6 @@ export class QuestionEntity {
   id: string;
 
   @Column()
-  title: string;
-
-  @Column()
   level: number;
 
   @ManyToOne(() => CategoryEntity)
