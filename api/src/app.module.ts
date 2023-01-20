@@ -12,22 +12,31 @@ import { CategoryModule } from "./modules/category/category.module";
 import { CategoryEntity } from "./modules/category/entities/category.entity";
 import { GameModule } from "./modules/game/game.module";
 import { GameEntity } from "./modules/game/entities/game.entity";
+import { GameQuestionModule } from "./modules/gameQuestion/gameQuestion.module";
+import { GameQuestionEntity } from "./modules/gameQuestion/entities/gameQuestion.entity";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: "postgres",
       synchronize: true,
-      ssl: {
+      /* ssl: {
         rejectUnauthorized: false,
-      },
+      }, */
       url: process.env.DATABASE_URL,
-      entities: [UserEntity, QuestionEntity, CategoryEntity, GameEntity],
+      entities: [
+        UserEntity,
+        QuestionEntity,
+        CategoryEntity,
+        GameEntity,
+        GameQuestionEntity,
+      ],
     }),
     UserModule,
     QuestionModule,
     AuthModule,
     GameModule,
     CategoryModule,
+    GameQuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
