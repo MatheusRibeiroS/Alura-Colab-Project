@@ -26,7 +26,11 @@ export class AuthService {
     ).toString(CryptoJS.enc.Utf8);
 
     if (userPassword == providedPassword) {
-      const payload = { username: userRes.name, email: userRes.email };
+      const payload = {
+        id: userRes.id,
+        username: userRes.name,
+        email: userRes.email,
+      };
       return {
         access_token: this.jwtService.sign(payload),
       };
