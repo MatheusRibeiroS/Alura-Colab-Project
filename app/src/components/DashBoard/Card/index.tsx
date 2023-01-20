@@ -12,8 +12,8 @@ interface Props {
 
 export default function Card({ title, Icon }: Props) {
   return (
-    <div className="bg-[#263673] flex items-center p-10 text-white hover:bg-[#324899] hover:cursor-pointer">
-      <h2 className="text-2xl  font-semibold">{title}</h2>
+    <div className="bg-[#263673] flex justify-center items-center p-10 w-[250px] text-white hover:bg-[#324899] hover:cursor-pointer">
+      <h2 className="text-2xl font-semibold">{title}</h2>
       <Icon className="h-[40px]" />
     </div>
   );
