@@ -8,8 +8,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "./modules/user/entities/user.entity";
 import { AuthModule } from "./modules/auth/auth.module";
 import { QuestionEntity } from "./modules/question/entities/question.entity";
-import { HttpModule } from "@nestjs/axios";
-import * as https from "https";
 
 @Module({
   imports: [
