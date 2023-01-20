@@ -46,4 +46,9 @@ export class QuestionController {
   async deleteQuestion(@Param("id") id: string) {
     return this.questionService.deleteQuestion(id);
   }
+
+  @Post("answer/:id")
+  async getAnswer(@Param("id") id: string, @Body() answer: { answer: string }) {
+    return this.questionService.getAnswer(id, answer);
+  }
 }

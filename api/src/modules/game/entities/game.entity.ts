@@ -12,7 +12,7 @@ export class GameEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: null })
   finished: Date;
 
   @Column()
