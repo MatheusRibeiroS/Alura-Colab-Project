@@ -14,7 +14,7 @@ export class GameDTO {
 
   @IsNotEmpty()
   @IsNumber()
-  skiped: number;
+  skipped: number;
 
   @IsNotEmpty()
   @IsNumber()

@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { IsNull, Repository } from "typeorm";
 import { GameEntity } from "./entities/game.entity";
 import { GameDTO } from "./dto/game.dto";
+import { BadRequestException } from "@nestjs/common";
 
 @Injectable()
 export class GameService {
@@ -42,5 +43,82 @@ export class GameService {
 
   async deleteGame(id: string) {
     return await this.gameRepository.delete(id);
+  }
+
+  async wrongAnswer(id: string) {
+    const game = await this.gameRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (game) {
+      game.wrong += 1;
+      game.updatedAt = new Date();
+      return await this.gameRepository.update(id, {
+        ...game,
+      });
+    }
+  }
+
+  async helpAnswer(id: string) {
+    const game = await this.gameRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (game.cards_help < 3) {
+      game.cards_help += 1;
+      game.updatedAt = new Date();
+      return await this.gameRepository.update(id, {
+        ...game,
+      });
+    } else if (game.cards_help === 3) {
+      throw new BadRequestException(
+        "Você já usou todos os seus cartões de ajuda",
+      );
+    }
+  }
+
+  async skipAnswer(id: string) {
+    const game = await this.gameRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (game) {
+      game.skipped += 1;
+      game.updatedAt = new Date();
+      return await this.gameRepository.update(id, {
+        ...game,
+      });
+    }
+  }
+
+  async finishGame(id: string) {
+    const game = await this.gameRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (game) {
+      game.finished = new Date();
+      game.updatedAt = new Date();
+      return await this.gameRepository.update(id, {
+        ...game,
+      });
+    }
+  }
+
+  async getActiveGameByUserId(userID: string) {
+    return await this.gameRepository.find({
+      where: {
+        user: { id: userID },
+        finished: IsNull(),
+      },
+    });
   }
 }

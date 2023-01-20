@@ -12,6 +12,6 @@ export class AuthController {
 
   @Post("token/validate")
   async validate(@Request() req) {
-    return await this.authService.validate(req.rawHeaders[1].substr(7));
+    return await this.authService.validate(req.body.access_token);
   }
 }

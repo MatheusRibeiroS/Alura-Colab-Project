@@ -4,6 +4,7 @@ import Home from "../pages/home";
 import Questions from "../pages/questions";
 import NewAccount from "../pages/newAccount";
 import DefaultLayout from "../layouts";
+import { ProtectedRoute } from "../components/ProtectedRoute";
 import Profile from "../pages/profile";
 
 export const AppRouter = () => {
@@ -11,8 +12,14 @@ export const AppRouter = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/new-account" element={<NewAccount />} />
-      <Route element={<DefaultLayout />}>
-        <Route path="/home" element={<Home />} />
+      <Route
+        element={
+          <ProtectedRoute>
+            <DefaultLayout  />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/questions" element={<Questions />} />
       </Route>
