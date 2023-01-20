@@ -1,9 +1,8 @@
 import logo from "../../src/assets/img/logo.webp";
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import CryptoJS from "crypto-js";
+import { useUserAuth } from "../hooks/useAuth";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +11,7 @@ export default function Login() {
     password: "",
   });
   const navigate = useNavigate();
+  const { login } = useUserAuth();
 
   const handleEmailChange: React.ChangeEventHandler<HTMLInputElement> = (e) =>
     setLoginForm({
@@ -29,17 +29,12 @@ export default function Login() {
 
   const onSubmitLogin: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    const encrypted = CryptoJS.AES.encrypt(
-      loginForm.password,
-      `${process.env.REACT_APP_CRYPTO_SECRET}`
-    ).toString();
 
     (async () => {
-      axios.post("http://localhost:4000/auth/login", {
+      login({
         email: loginForm.email,
-        password: encrypted,
+        password: loginForm.password,
       });
-      navigate("/home");
     })();
   };
 

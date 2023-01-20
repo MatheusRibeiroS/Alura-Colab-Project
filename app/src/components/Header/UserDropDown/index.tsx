@@ -1,12 +1,14 @@
 import { Menu, Transition } from "@headlessui/react";
 import {
+  ArrowRightOnRectangleIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
   UserCircleIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
-import { menuItems } from "../../../mocks/menuItems";
+import { useNavigate } from "react-router-dom";
+import { useUserAuth } from "../../../hooks/useAuth";
 
 interface Props {
   username?: string;
@@ -14,6 +16,8 @@ interface Props {
 
 export default function UserDropDown({ username }: Props) {
   const [arrow, setArrow] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { logout } = useUserAuth();
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -44,19 +48,25 @@ export default function UserDropDown({ username }: Props) {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="w-24 origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-              {menuItems.map((item, index) => (
-                <Menu.Item key={index} as={Fragment}>
-                  <Link
-                    to={item.path}
-                    className={
-                      "rounded-md block text-lg p-2 bg-gray-100 hover:bg-gray-300 text-gray-900"
-                    }
-                  >
-                    {item.title}
-                  </Link>
-                </Menu.Item>
-              ))}
+            <Menu.Items className="w-36 origin-top-right overflow-hidden absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Item as={Fragment}>
+                <div
+                  onClick={() => navigate("/profile")}
+                  className="flex gap-4 text-lg p-2 bg-gray-100 hover:bg-gray-300 text-gray-900 cursor-pointer"
+                >
+                  <UserIcon className="h-6 w-6 text-[#131B3AB2]" />
+                  Perfil
+                </div>
+              </Menu.Item>
+              <Menu.Item as={Fragment}>
+                <div
+                  onClick={() => logout()}
+                  className="flex gap-4 text-lg p-2 bg-gray-100 hover:bg-gray-300 text-gray-900 cursor-pointer"
+                >
+                  <ArrowRightOnRectangleIcon className="h-6 w-6 text-[#131B3AB2]" />
+                  Sair
+                </div>
+              </Menu.Item>
             </Menu.Items>
           </Transition>
         </>
