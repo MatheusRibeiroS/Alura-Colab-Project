@@ -5,6 +5,7 @@ import Questions from "../pages/questions";
 import NewAccount from "../pages/newAccount";
 import DefaultLayout from "../layouts";
 import { ProtectedRoute } from "../components/ProtectedRoute";
+import Profile from "../pages/profile";
 
 export const AppRouter = () => {
   return (
@@ -14,11 +15,12 @@ export const AppRouter = () => {
       <Route
         element={
           <ProtectedRoute>
-            <DefaultLayout />
+            <DefaultLayout  />
           </ProtectedRoute>
         }
       >
         <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/questions" element={<Questions />} />
       </Route>
     </Routes>
