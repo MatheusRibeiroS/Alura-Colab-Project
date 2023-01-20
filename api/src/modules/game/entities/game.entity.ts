@@ -18,10 +18,14 @@ export class GameEntity {
   @Column()
   level: number;
 
-  @Column()
+  @Column({
+    default: 0,
+  })
   wrong: number;
 
-  @Column()
+  @Column({
+    default: 0,
+  })
   skiped: number;
 
   @Column()

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
 } from "@nestjs/common";
@@ -37,5 +38,30 @@ export class GameController {
   @Delete(":id")
   async deleteGame(@Param("id") id: string) {
     return this.gameService.deleteGame(id);
+  }
+
+  @Put("wrong/:gameid")
+  async wrongAnswer(@Param("gameid") id: string) {
+    return this.gameService.wrongAnswer(id);
+  }
+
+  @Put("help/:gameid")
+  async helpAnswer(@Param("gameid") id: string) {
+    return this.gameService.helpAnswer(id);
+  }
+
+  @Put("skip/:gameid")
+  async skipAnswer(@Param("gameid") id: string) {
+    return this.gameService.skipAnswer(id);
+  }
+
+  @Put("finish/:gameid")
+  async finishGame(@Param("gameid") id: string) {
+    return this.gameService.finishGame(id);
+  }
+
+  @Get("active/:userid")
+  async getActiveGame(@Param("userid") id: string) {
+    return this.gameService.getActiveGameByUserId(id);
   }
 }
