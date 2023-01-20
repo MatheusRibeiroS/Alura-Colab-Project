@@ -1,5 +1,5 @@
 import logo from "../../src/assets/img/logo.webp";
-import axios from "axios";
+import axiosService from "../services/axiosService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
@@ -43,7 +43,7 @@ export default function NewAccount() {
     ).toString();
 
     (async () => {
-      axios.post("http://localhost:4000/user", {
+      axiosService.post("/user", {
         name: loginForm.name,
         email: loginForm.email,
         password: encrypted,
