@@ -54,4 +54,14 @@ export class QuestionService {
   async deleteQuestion(id: string) {
     return await this.questionRepository.delete(id);
   }
+
+  async getAnswer(id, body) {
+    const isAnswer = await this.questionRepository.findOne({
+      where: {
+        id: body.id,
+      },
+    });
+    if (isAnswer.answer === body.answer) return true;
+    else return false;
+  }
 }

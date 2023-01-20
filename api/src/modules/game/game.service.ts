@@ -28,6 +28,7 @@ export class GameService {
   }
 
   async createGame(game: GameDTO) {
+    console.log(game);
     return await this.gameRepository.save({
       ...game,
       createdAt: new Date(),
@@ -114,11 +115,12 @@ export class GameService {
   }
 
   async getActiveGameByUserId(userID: string) {
-    return await this.gameRepository.find({
+    const gameSession = await this.gameRepository.find({
       where: {
         user: { id: userID },
         finished: IsNull(),
       },
     });
+    return gameSession;
   }
 }
