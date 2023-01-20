@@ -23,10 +23,8 @@ export class GameEntity {
   })
   wrong: number;
 
-  @Column({
-    default: 0,
-  })
-  skiped: number;
+  @Column()
+  skipped: number;
 
   @Column()
   cards_help: number;

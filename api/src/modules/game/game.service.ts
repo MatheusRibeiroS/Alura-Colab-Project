@@ -89,7 +89,7 @@ export class GameService {
     });
 
     if (game) {
-      game.skiped += 1;
+      game.skipped += 1;
       game.updatedAt = new Date();
       return await this.gameRepository.update(id, {
         ...game,
