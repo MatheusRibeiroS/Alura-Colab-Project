@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { QuestionEntity } from "./entities/question.Entity";
+import { QuestionEntity } from "./entities/question.entity";
 import { CategoryEntity } from "../category/entities/category.entity";
 import { QuestionDTO } from "./dto/question.dto";
 
