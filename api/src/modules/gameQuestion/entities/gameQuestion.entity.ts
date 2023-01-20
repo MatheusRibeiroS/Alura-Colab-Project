@@ -24,6 +24,6 @@ export class GameQuestionEntity {
   @Column()
   createdAt: Date;
 
-  @Column()
+  @Column({ nullable: true })
   updatedAt: Date;
 }
