@@ -10,10 +10,6 @@ import { CategoryEntity } from "../../category/entities/category.entity";
 
 export class QuestionDTO {
   @IsNotEmpty()
-  @IsString()
-  title: string;
-
-  @IsNotEmpty()
   @IsInt()
   @Min(1)
   @Max(10)
