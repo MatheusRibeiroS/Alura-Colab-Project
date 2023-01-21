@@ -2,6 +2,8 @@ import ProfileFormData from "./ProfileFormData";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { updateUser } from "../../services/updateUser";
+import { useUserAuth } from "../../hooks/useAuth";
 
 const validationSchema = yup.object().shape({
   name: yup.string().required("Esse campo é obrigatório."),
@@ -27,9 +29,17 @@ export default function ProfileForm() {
     resolver: yupResolver(validationSchema),
   });
 
+  const { getTokenPayload } = useUserAuth();
+  const { id } = getTokenPayload();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
-    console.log(data);
+    const body = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
+    const updateRes = await updateUser(id, body);
+    console.log({ status: updateRes.status, message: updateRes.statusText });
   };
 
   return (
@@ -39,10 +49,7 @@ export default function ProfileForm() {
         className="flex justify-center flex-wrap w-full"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <ProfileFormData
-          register={register}
-          errors={errors}
-        />
+        <ProfileFormData register={register} errors={errors} />
       </form>
       <input
         form="ProfileForm"
