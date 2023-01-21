@@ -33,10 +33,15 @@ export default function ProfileForm() {
   const { id } = getTokenPayload();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
+    const encrypted = CryptoJS.AES.encrypt(
+      data.password,
+      `${process.env.REACT_APP_CRYPTO_SECRET}`
+    ).toString();
+
     const body = {
       name: data.name,
       email: data.email,
-      password: data.password,
+      password: encrypted,
     };
     const updateRes = await updateUser(id, body);
     console.log({ status: updateRes.status, message: updateRes.statusText });
