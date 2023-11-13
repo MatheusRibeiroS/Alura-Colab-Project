@@ -27,11 +27,23 @@ export class GameService {
     });
   }
 
-  async createGame(game: GameDTO) {
-    return await this.gameRepository.save({
-      ...game,
+  async createGame(userId: string) {
+    const getActiveGameByUserId = await this.getActiveGameByUserId(userId);
+
+    if (getActiveGameByUserId) {
+      return null;
+    }
+
+    const createdGame = await this.gameRepository.save({
+      level: 0,
+      skipped: 0,
+      wrong: 0,
+      cards_help: 0,
+      user: { id: userId },
       createdAt: new Date(),
     });
+
+    return { id: createdGame.id, userId: createdGame.user.id };
   }
 
   async updateGame(id: string, body: Partial<GameDTO>) {
@@ -114,11 +126,12 @@ export class GameService {
   }
 
   async getActiveGameByUserId(userID: string) {
-    return await this.gameRepository.find({
-      where: {
-        user: { id: userID },
-        finished: IsNull(),
-      },
+    const activeGame = await this.gameRepository.findOneBy({
+      user: { id: userID },
+      finished: IsNull(),
     });
+    if (!activeGame) return null;
+
+    return { id: activeGame.id };
   }
 }

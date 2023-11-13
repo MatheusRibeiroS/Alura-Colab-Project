@@ -1,11 +1,36 @@
 import { respostasMock } from "../../mocks/respostasMock";
-import { gameOptions } from "../../mocks/gameOptionsMock";
-
+import skipIcon from "../../assets/img/skip.svg";
+import cardsIcon from "../../assets/img/cards.svg";
+import stopIcon from "../../assets/img/stop.svg";
 import Answer from "./Answer";
 import Statement from "./Statement";
 import Option from "./Option";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axiosService from "../../services/axiosService";
+import { useUserAuth } from "../../hooks/useAuth";
 
 export default function Question() {
+  const navigate = useNavigate();
+  const { getTokenPayload } = useUserAuth();
+
+  const [question, setQuestion] = useState({});
+  const [gameId, setGameId] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const user = await getTokenPayload();
+      const { data: activeGameRes } = await axiosService.get(
+        `/game/active/${user.id}`
+      );
+
+      if (activeGameRes) {
+        setGameId(activeGameRes.id);
+      }
+      console.log(activeGameRes);
+    })();
+  }, []);
+
   return (
     <div className="w-[80%] h-[95%] flex flex-col justify-between p-4">
       <Statement
@@ -18,9 +43,30 @@ export default function Question() {
         ))}
       </section>
       <section className="flex space-x-4 justify-center">
-        {gameOptions.map((option, index) => (
-          <Option key={index} option={option} />
-        ))}
+        <Option
+          onClick={() => {
+            (async () => {
+              axiosService.put(`/help/${gameId}`);
+            })();
+          }}
+          option={{ icon: cardsIcon, text: "Cartas" }}
+        />
+        <Option
+          onClick={() => {
+            (async () => {
+              axiosService.put(`/skip/${gameId}`);
+            })();
+          }}
+          option={{ icon: skipIcon, text: "Pular" }}
+        />
+        <Option
+          onClick={() => {
+            (async () => {
+              axiosService.put(`/finish/${gameId}`);
+            })();
+          }}
+          option={{ icon: stopIcon, text: "Parar" }}
+        />
       </section>
     </div>
   );
